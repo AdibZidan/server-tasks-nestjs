@@ -4,11 +4,11 @@ import { ApplicationService } from './application.service';
 @Controller()
 export class ApplicationController {
 
-  constructor(private readonly appService: ApplicationService) { }
+  constructor(private readonly applicationService: ApplicationService) { }
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.applicationService.getHello();
   }
 
 }
