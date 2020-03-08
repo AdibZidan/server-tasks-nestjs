@@ -55,4 +55,20 @@ describe('Tasks Controller', () => {
       .toEqual(expectedMockedTasks);
   });
 
+  it('Should publish a specific task', () => {
+    const taskToPublish: Task = tasksController.publishTask({
+      id: 0,
+      title: 'Test title 4',
+      description: 'Test description 4',
+      percentage: 100,
+      isComplete: true
+    });
+
+    expect(tasksController.publishTask(taskToPublish))
+      .toEqual(taskToPublish);
+
+    expect(taskToPublish.id)
+      .toEqual(4);
+  });
+
 });
