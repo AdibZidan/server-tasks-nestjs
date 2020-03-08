@@ -44,4 +44,10 @@ export class TaskService {
     }
   }
 
+  public postOne(task: Task): Task {
+    task.id = this.tasks.length++;
+
+    return task;
+  }
+
 }
