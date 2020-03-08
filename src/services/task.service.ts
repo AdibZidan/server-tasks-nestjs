@@ -27,7 +27,7 @@ export class TaskService {
     const taskToFind: Task = findTask(this.tasks, id);
     const taskToUpdate: Task = Object.assign(taskToFind, task);
 
-    if (!task) {
+    if (!taskToFind) {
       return `No task with the id of ${id} found!`;
     } else {
       return taskToUpdate;
