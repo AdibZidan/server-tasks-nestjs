@@ -55,7 +55,7 @@ describe('Task Service', () => {
   });
 
   it('Should publish a specific task', () => {
-    const updatedTask: Task = {
+    const taskToPublish: Task = {
       id: 0,
       title: 'Wake up at 6 A.M tomorrow',
       description: 'Prepare coffee and continue working on your project',
@@ -63,10 +63,10 @@ describe('Task Service', () => {
       isComplete: false
     };
 
-    expect(taskService.postOne(updatedTask))
-      .toEqual(updatedTask);
+    expect(taskService.postOne(taskToPublish))
+      .toEqual(taskToPublish);
 
-    expect(taskService.postOne(updatedTask).id)
+    expect(taskService.postOne(taskToPublish).id)
       .toEqual(4);
   });
 
