@@ -1,20 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { tasksMock } from '../mocks/tasks-mock';
-import { Task } from '../models/Task';
+import { getMockedTasks } from '../../shared/mocks/tasks.mock';
+import { Task } from '../../shared/models/task.model';
 import { TaskService } from '../services/task.service';
 import { TasksController } from './tasks.controller';
 
 describe('Tasks Controller', () => {
 
+  let testingModule: TestingModule;
   let tasksController: TasksController;
+  let mockedTasks: Task[];
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    testingModule = await Test.createTestingModule({
       controllers: [TasksController],
       providers: [TaskService]
     }).compile();
+  });
 
-    tasksController = module.get<TasksController>(TasksController);
+  beforeEach(() => {
+    tasksController = testingModule.get<TasksController>(TasksController);
+    mockedTasks = getMockedTasks();
   });
 
   it('Should be defined', () => {
@@ -22,14 +27,14 @@ describe('Tasks Controller', () => {
       .toBeDefined();
   });
 
-  it('Should get a specific task', () => {
-    expect(tasksController.getTask('1'))
-      .toEqual(tasksMock[0]);
+  it('Should get all tasks', () => {
+    expect(tasksController.getTasks())
+      .toEqual(mockedTasks);
   });
 
-  it('Should return a message if given a wrong id', () => {
-    expect(tasksController.getTask('4'))
-      .toEqual('No task with the id of 4 found!');
+  it('Should get a specific task', () => {
+    expect(tasksController.getTask('1'))
+      .toEqual(mockedTasks[0]);
   });
 
   it('Should update a specific task', () => {
@@ -41,7 +46,7 @@ describe('Tasks Controller', () => {
       isComplete: true
     };
 
-    expect(tasksMock[0])
+    expect(mockedTasks[0])
       .not.toEqual(updatedTask);
 
     expect(tasksController.updateTask('1', updatedTask))
@@ -49,15 +54,14 @@ describe('Tasks Controller', () => {
   });
 
   it('Should delete a specific task', () => {
-    const expectedMockedTasks: Task[] = [tasksMock[1], tasksMock[2]];
+    const tasksWithIdsTwoAndThree: Task[] = [mockedTasks[1], mockedTasks[2]];
 
     expect(tasksController.deleteTask('1'))
-      .toEqual(expectedMockedTasks);
+      .toEqual(tasksWithIdsTwoAndThree);
   });
 
   it('Should publish a specific task', () => {
     const taskToPublish: Task = tasksController.publishTask({
-      id: 0,
       title: 'Test title 4',
       description: 'Test description 4',
       percentage: 100,

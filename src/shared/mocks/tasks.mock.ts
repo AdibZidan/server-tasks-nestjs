@@ -1,6 +1,6 @@
-import { Task } from 'src/models/Task';
+import { Task } from '../../shared/models/task.model';
 
-export const tasksMock: Task[] = [
+export const getMockedTasks = (): Task[] => [
   {
     id: 1,
     title: 'Test title 1',
