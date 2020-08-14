@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { deleteTask, findTask } from '../../shared/helpers/task.helper';
+import { deleteTask, findTask, isLegit } from '../../shared/helpers/tasks.helper';
 import { getMockedTasks } from '../../shared/mocks/tasks.mock';
 import { Task } from '../../shared/models/task.model';
 
 @Injectable()
-export class TaskService {
+export class TasksService {
 
-  private readonly tasks: Task[] = getMockedTasks();
+  public readonly tasks: Task[] = getMockedTasks();
 
   public findAll(): Task[] {
     return this.tasks;
@@ -20,9 +20,9 @@ export class TaskService {
         `No task with the id of ${id} found!`,
         HttpStatus.NOT_FOUND
       );
-    } else {
-      return task;
     }
+
+    return task;
   }
 
   public updateOne(id: string, task: Task): Task {
@@ -33,28 +33,37 @@ export class TaskService {
         `No task with the id of ${id} found!`,
         HttpStatus.NOT_FOUND
       );
-    } else {
-      const taskToUpdate: Task = Object.assign(taskToFind, task);
-
-      return taskToUpdate;
     }
+
+    const updatedTask: Task = Object.assign(taskToFind, task);
+
+    return updatedTask;
   }
 
   public deleteOne(id: string): Task[] {
-    const ids: number[] = this.tasks.map((task: Task) => task.id);
+    const ids: number[] = this.tasks.map((task: Task): number => task.id);
 
     if (!ids.includes(parseInt(id))) {
       throw new HttpException(
         `No task with the id of ${id} found!`,
         HttpStatus.NOT_FOUND
       );
-    } else {
-      return deleteTask(this.tasks, id);
     }
+
+    return deleteTask(this.tasks, id);
   }
 
   public postOne(task: Task): Task {
-    task.id = this.tasks.length++;
+    if (isLegit(task)) {
+      throw new HttpException(
+        'Your task is missing some properties!',
+        HttpStatus.NOT_ACCEPTABLE
+      );
+    }
+
+    task.id = this.tasks.length + 1;
+
+    this.tasks.push(task);
 
     return task;
   }

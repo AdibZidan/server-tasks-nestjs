@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { Task } from '../../shared/models/task.model';
-import { TaskService } from '../services/task.service';
+import { TasksService } from '../services/tasks.service';
 
 @Controller('tasks')
 export class TasksController {
 
   constructor(
-    private readonly taskService: TaskService
+    private readonly taskService: TasksService
   ) { }
 
   @Get()

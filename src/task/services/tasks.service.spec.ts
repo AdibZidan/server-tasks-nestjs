@@ -1,24 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getMockedTasks } from '../../shared/mocks/tasks.mock';
 import { Task } from '../../shared/models/task.model';
-import { TaskService } from './task.service';
+import { TasksService } from './tasks.service';
 
 describe('Task Service', () => {
 
   let testingModule: TestingModule;
-  let taskService: TaskService;
-
+  let taskService: TasksService;
   let mockedTasks: Task[];
 
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
-      providers: [TaskService],
+      providers: [TasksService]
     }).compile();
   });
 
   beforeEach(() => {
-    taskService = testingModule.get<TaskService>(TaskService);
-    mockedTasks = getMockedTasks();
+    taskService = testingModule.get<TasksService>(TasksService);
+    mockedTasks = taskService.tasks;
   });
 
   it('Should be defined', () => {
@@ -75,6 +73,9 @@ describe('Task Service', () => {
   });
 
   it('Should publish a specific task', () => {
+    expect(mockedTasks.length)
+      .toEqual(3);
+
     const taskToPublish: Task = {
       title: 'Wake up at 6 A.M tomorrow',
       description: 'Prepare coffee and continue working on your project',
@@ -82,11 +83,19 @@ describe('Task Service', () => {
       isComplete: false
     };
 
-    expect(taskService.postOne(taskToPublish))
+    const actualPublishedTask: Task = taskService.postOne(taskToPublish);
+
+    expect(actualPublishedTask)
       .toEqual(taskToPublish);
 
-    expect(taskService.postOne(taskToPublish).id)
+    expect(mockedTasks.length)
       .toEqual(4);
+  });
+
+  it('Should return an exception if given an incomplete task when publishing a specific task', () => {
+    expect((): Task =>
+      taskService.postOne(null)
+    ).toThrow('Your task is missing some properties!');
   });
 
 });

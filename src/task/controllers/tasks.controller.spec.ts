@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getMockedTasks } from '../../shared/mocks/tasks.mock';
 import { Task } from '../../shared/models/task.model';
-import { TaskService } from '../services/task.service';
+import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 
 describe('Tasks Controller', () => {
@@ -13,7 +13,7 @@ describe('Tasks Controller', () => {
   beforeEach(async () => {
     testingModule = await Test.createTestingModule({
       controllers: [TasksController],
-      providers: [TaskService]
+      providers: [TasksService]
     }).compile();
   });
 
@@ -67,9 +67,6 @@ describe('Tasks Controller', () => {
       percentage: 100,
       isComplete: true
     });
-
-    expect(tasksController.publishTask(taskToPublish))
-      .toEqual(taskToPublish);
 
     expect(taskToPublish.id)
       .toEqual(4);

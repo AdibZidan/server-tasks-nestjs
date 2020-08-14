@@ -1,4 +1,4 @@
-import { Task } from '../../shared/models/task.model';
+import { Task } from '../models/task.model';
 
 export const findTask = (tasks: Task[], id: string): Task => {
   const task: Task = tasks.find((task: Task) => parseInt(id) === task.id);
@@ -16,4 +16,18 @@ export const toggleIsCompleteProperty = (tasks: Task[], id: number): void => {
       task.isComplete = !task.isComplete;
     }
   });
+};
+
+export const isLegit = (task: Task): boolean => {
+  return !(task) || isEmpty(task);
+};
+
+const isEmpty = (task: Task): boolean => {
+  for (const properties in task) {
+    if (task.hasOwnProperty(properties)) {
+      return false;
+    }
+  }
+
+  return JSON.stringify(task) === JSON.stringify({});
 };
