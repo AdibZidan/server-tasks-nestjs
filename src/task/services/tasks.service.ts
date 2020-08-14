@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { deleteTask, findTask, isLegit } from '../../shared/helpers/tasks.helper';
+import { deleteTask, findTask, isNotLegit } from '../../shared/helpers/tasks.helper';
 import { getMockedTasks } from '../../shared/mocks/tasks.mock';
 import { Task } from '../../shared/models/task.model';
 
@@ -54,7 +54,7 @@ export class TasksService {
   }
 
   public postOne(task: Task): Task {
-    if (isLegit(task)) {
+    if (isNotLegit(task)) {
       throw new HttpException(
         'Your task is missing some properties!',
         HttpStatus.NOT_ACCEPTABLE

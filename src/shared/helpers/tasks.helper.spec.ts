@@ -1,6 +1,6 @@
 import { getMockedTasks } from '../mocks/tasks.mock';
 import { Task } from '../models/task.model';
-import { deleteTask, findTask, isLegit, toggleIsCompleteProperty } from './tasks.helper';
+import { deleteTask, findTask, isNotLegit, toggleIsCompleteProperty } from './tasks.helper';
 
 describe('Task helper', () => {
 
@@ -47,12 +47,12 @@ describe('Task helper', () => {
   it('Should check if a task has at-least a single property', () => {
     const taskWithNoProperties: any = {};
 
-    expect(isLegit(taskWithNoProperties))
+    expect(isNotLegit(taskWithNoProperties))
       .toEqual(true);
 
     const taskWithProperties: Task = mockedTasks[0];
 
-    expect(isLegit(taskWithProperties))
+    expect(isNotLegit(taskWithProperties))
       .toEqual(false);
   });
 

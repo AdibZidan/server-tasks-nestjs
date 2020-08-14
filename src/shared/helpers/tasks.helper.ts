@@ -18,7 +18,7 @@ export const toggleIsCompleteProperty = (tasks: Task[], id: number): void => {
   });
 };
 
-export const isLegit = (task: Task): boolean => {
+export const isNotLegit = (task: Task): boolean => {
   return !(task) || isEmpty(task);
 };
 
