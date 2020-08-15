@@ -1,13 +1,13 @@
 import { Task } from '../models/task.model';
 
-export const findTask = (tasks: Task[], id: string): Task => {
-  const task: Task = tasks.find((task: Task) => parseInt(id) === task.id);
+export const findTask = (tasks: Task[], id: number): Task => {
+  const task: Task = tasks.find((task: Task) => id === task.id);
 
   return task;
 };
 
-export const deleteTask = (tasks: Task[], id: string): Task[] => {
-  return tasks.filter((taskToDelete: Task) => taskToDelete.id !== parseInt(id));
+export const deleteTask = (tasks: Task[], id: number): Task[] => {
+  return tasks.filter((taskToDelete: Task) => taskToDelete.id !== id);
 };
 
 export const toggleIsCompleteProperty = (tasks: Task[], id: number): void => {

@@ -12,7 +12,7 @@ export class TasksService {
     return this.tasks;
   }
 
-  public findOne(id: string): Task {
+  public findOne(id: number): Task {
     const task: Task = findTask(this.tasks, id);
 
     if (!task) {
@@ -25,7 +25,7 @@ export class TasksService {
     return task;
   }
 
-  public updateOne(id: string, task: Task): Task {
+  public updateOne(id: number, task: Task): Task {
     const taskToFind: Task = findTask(this.tasks, id);
 
     if (!taskToFind) {
@@ -40,10 +40,10 @@ export class TasksService {
     return updatedTask;
   }
 
-  public deleteOne(id: string): Task[] {
+  public deleteOne(id: number): Task[] {
     const ids: number[] = this.tasks.map((task: Task): number => task.id);
 
-    if (!ids.includes(parseInt(id))) {
+    if (!ids.includes(id)) {
       throw new HttpException(
         `No task with the id of ${id} found!`,
         HttpStatus.NOT_FOUND
@@ -57,7 +57,7 @@ export class TasksService {
     if (isNotLegit(task)) {
       throw new HttpException(
         'Your task is missing some properties!',
-        HttpStatus.NOT_ACCEPTABLE
+        HttpStatus.PARTIAL_CONTENT
       );
     }
 

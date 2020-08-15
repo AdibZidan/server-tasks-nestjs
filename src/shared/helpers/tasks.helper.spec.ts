@@ -11,7 +11,7 @@ describe('Task helper', () => {
   });
 
   it('Should find a specific task', () => {
-    const actualFoundTask: Task = findTask(mockedTasks, '1');
+    const actualFoundTask: Task = findTask(mockedTasks, 1);
     const expectedFoundTask: Task = mockedTasks[0];
 
     expect(actualFoundTask)
@@ -20,7 +20,7 @@ describe('Task helper', () => {
 
   it('Should delete a specific task', () => {
     const expectedMockedTasks: Task[] = [mockedTasks[1], mockedTasks[2]];
-    const actualMockedTasks: Task[] = deleteTask(mockedTasks, '1');
+    const actualMockedTasks: Task[] = deleteTask(mockedTasks, 1);
 
     expect(actualMockedTasks)
       .toEqual(expectedMockedTasks);

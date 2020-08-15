@@ -33,7 +33,7 @@ describe('Tasks Controller', () => {
   });
 
   it('Should get a specific task', () => {
-    expect(tasksController.getTask('1'))
+    expect(tasksController.getTask(1))
       .toEqual(mockedTasks[0]);
   });
 
@@ -49,14 +49,14 @@ describe('Tasks Controller', () => {
     expect(mockedTasks[0])
       .not.toEqual(updatedTask);
 
-    expect(tasksController.updateTask('1', updatedTask))
+    expect(tasksController.updateTask(1, updatedTask))
       .toEqual(updatedTask);
   });
 
   it('Should delete a specific task', () => {
     const tasksWithIdsTwoAndThree: Task[] = [mockedTasks[1], mockedTasks[2]];
 
-    expect(tasksController.deleteTask('1'))
+    expect(tasksController.deleteTask(1))
       .toEqual(tasksWithIdsTwoAndThree);
   });
 
